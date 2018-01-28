@@ -40,7 +40,7 @@ std_attr_lst = [
 	'CONVEYANCE METHOD',
 	'DIFFERENTIAL PRESSURE RATING - ACROSS SEALS (PSI)',
 	'DIFFERENTIAL PRESSURE RATING (PSI)',
-	'DIFFERENTIAL RATING ISOLATED (PSI):',
+	'DIFFERENTIAL RATING ISOLATED (PSI)',
 	'DIFFERENTIAL RATING PLUGGED (PSI)',
 	'DIFFERENTIAL RATING UNPLUGGED (PSI)',
 	'EXTERNAL WORKING PRESSURE (PSI) - AT SPECIFIED TEMP (F)',
@@ -148,23 +148,20 @@ def type_attr(typ):
     return [attr_lst_ncssry, attr_lst_opnl]
 
 def choose_type(choice):
-    packer_type = ''
-    iso_type = ''
     attr_choice = []
-    [packer_type, iso_type] = choice.split(',', 1)
-    print packer_type, iso_type
-    if packer_type == 'pt' and iso_attr == 'n':
+    [typ, iso] = choice.split(',', 1)
+    # print [typ, iso]
+    if typ == 'pt' and iso == 'n':
         attr_choice = packer_tubing
-    elif packer_type == 'ps' and iso_attr == 'n':
+    elif typ == 'ps' and iso == 'n':
         attr_choice = packer_seal_bore
-    elif packer_type == 'pt' and iso_type == 'y':
+    elif typ == 'pt' and iso == 'y':
         for i in range(len(packer_tubing)):
             if packer_tubing[i] > iso_attr[i]:
                 attr_choice.append(packer_tubing[i])
             else:
                 attr_choice.append(iso_attr[i])
-    elif packer_type == 'ps' and iso_attr == 'y':
-        print 'here we go'
+    elif typ == 'ps' and iso == 'y':
         for i in range(len(packer_seal_bore)):
             if packer_seal_bore[i] > iso_attr[i]:
                 attr_choice.append(packer_seal_bore[i])
@@ -172,10 +169,25 @@ def choose_type(choice):
                 attr_choice.append(iso_attr[i])
     else:
         pass
-    print attr_choice
     return attr_choice
 
-print type_attr(choose_type('ps,y'))
+def condns_dict(foo_dict):
+	items = foo_dict.items()
+	bar_dict = {}
+	for key, value in items:
+		new_key = re.sub('\W','',key)
+		bar_dict[new_key] = value
+	return bar_dict
+
+def condns_dict(foo_dict):
+	items = foo_dict.items()
+	bar_dict = {}
+	for key, value in items:
+		new_key = re.sub('\W','',key)
+		bar_dict[new_key] = value
+	return bar_dict
+
+# print type_attr(choose_type('ps,y'))
 # test = 'ps,y'
 # print test.split(',', 1)
 
@@ -198,12 +210,42 @@ def read_ref_tab_data(filepath):
 
 
 path = r'/Users/alexhex/Scripts/Py_Tab_Data/in.txt'
-ref_items = read_ref_tab_data(path).items()
+ref_tab_data = read_ref_tab_data(path)
+condns_ref_tab_data = condns_dict(ref_tab_data)
+ref_items = condns_ref_tab_data.items()
 ref_items.sort()
-for key, value in ref_items:
-    print key, value
+# for key, value in ref_items:
+    # print key, value
+
+def set_up_new_tab_data(ncssry_attr, optnl_attr, ref_dict):
+	new_dict = {}
+	for item in ncssry_attr:
+		condnsd_item = re.sub('\W','', item)
+		# print condnsd_item
+		if condnsd_item in condns_dict(ref_dict):
+			new_dict[item] = ref_dict[item]
+		else:
+			new_dict[item] = ""
+	for item in optnl_attr:
+		condnsd_item = re.sub('\W', '', item)
+		if condnsd_item in condns_dict(ref_dict):
+			new_dict[item] = ref_dict[item]
+		else:
+			pass
+	# print new_dict
+	return new_dict
+
+
 
 
 
 # Generate a blank standard new packer tab data dictionary
-choice = raw_input('What is the type of packer, and Is it ISO qualified?')
+# choice = raw_input('What is the type of packer, and Is it ISO qualified?')
+choice = "ps,y"
+# print choose_type(choice)
+[new_ncssry_attr, new_optnl_attr ] = type_attr(choose_type(choice))
+new_tab_data = set_up_new_tab_data(new_ncssry_attr, new_optnl_attr, ref_tab_data)
+items = new_tab_data.items()
+items.sort()
+for key, val in items:
+	print key, val
