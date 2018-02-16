@@ -1,5 +1,7 @@
+#!/usr/bin/env python3 
 #-*conding:utf-8-*-
 
+# [XNiu2 07-Feb-2018 updated]
 
 import re
 import os
@@ -39,7 +41,8 @@ while(line):
     val = val.strip()
 
 
-    print "att"
-    print "val"
+    print (att)
+    print (val)
+    ref_tab_data[att] = val
 
 str_in.close()

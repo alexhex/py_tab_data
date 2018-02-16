@@ -248,4 +248,4 @@ new_tab_data = set_up_new_tab_data(new_ncssry_attr, new_optnl_attr, ref_tab_data
 items = new_tab_data.items()
 items.sort()
 for key, val in items:
-	print key, val
+	print (key, val)
