@@ -54,3 +54,7 @@ for item in first_row:
 
 
 # 插入后续各行
+for item in raw_table:
+    try:
+        c.execute("INSERT INTO {tn}, ({idf}, {cn}) VALUES (item)\
+            .format(tn=table_name, cn=item, ct=main_format_type)
