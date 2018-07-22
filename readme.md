@@ -11,4 +11,7 @@
 
 ## Program Logic
 
-1. 
+1. The full standard tab data is defined at Attributes_List.txt, which contains all the attributes defined for packer and bridge plugs;
+2. The specific packer attributes list is defined at "\<packer type\>.txt", for example MRP.txt lists the attributes for MRP packer;
+3. Program "import_and_compare.py" could check the correctness of the packer.txt file;
+4. The tab_data_tool.py would use the packer type list file to establish the format;

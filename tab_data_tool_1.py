@@ -175,17 +175,10 @@ def condns_dict(foo_dict):
 	items = foo_dict.items()
 	bar_dict = {}
 	for key, value in items:
-		new_key = re.sub('\W','',key)
+		new_key = re.sub(r'\W','',key)
 		bar_dict[new_key] = value
 	return bar_dict
 
-def condns_dict(foo_dict):
-	items = foo_dict.items()
-	bar_dict = {}
-	for key, value in items:
-		new_key = re.sub('\W','',key)
-		bar_dict[new_key] = value
-	return bar_dict
 
 # print type_attr(choose_type('ps,y'))
 # test = 'ps,y'
@@ -199,7 +192,7 @@ def read_ref_tab_data(filepath):
     ref_in.close()
     ref_tab_data = {}
     ref_attr = []
-    attr = ''
+    att = ''
     val = ''
     for sen in lines:
         [att, val] = [elem.strip() for elem in sen.split('=', 1)]
@@ -220,14 +213,14 @@ ref_items.sort()
 def set_up_new_tab_data(ncssry_attr, optnl_attr, ref_dict):
 	new_dict = {}
 	for item in ncssry_attr:
-		condnsd_item = re.sub('\W','', item)
+		condnsd_item = re.sub(r'\W','', item)
 		# print condnsd_item
 		if condnsd_item in condns_dict(ref_dict):
 			new_dict[item] = ref_dict[item]
 		else:
 			new_dict[item] = ""
 	for item in optnl_attr:
-		condnsd_item = re.sub('\W', '', item)
+		condnsd_item = re.sub(r'\W', '', item)
 		if condnsd_item in condns_dict(ref_dict):
 			new_dict[item] = ref_dict[item]
 		else:
@@ -248,4 +241,4 @@ new_tab_data = set_up_new_tab_data(new_ncssry_attr, new_optnl_attr, ref_tab_data
 items = new_tab_data.items()
 items.sort()
 for key, val in items:
-	print key, val
+	print (key, val)
