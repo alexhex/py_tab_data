@@ -31,6 +31,7 @@ lst_in.close()
 
 ref_tab_data = {}
 condensed_ref_tab_data = {}
+err_tab_data = {}
 
 filename = "in.txt"
 refpath = os.path.join(folderpath, filename)
@@ -50,11 +51,11 @@ while(line):
     try:
         att_index = condensed_std_attr_lst.index(condensed_att)
     except ValueError:
-        pass
+        err_tab_data[att] = val
     ref_tab_data[std_attr_lst[att_index]] = val
     condensed_ref_tab_data[condensed_std_attr_lst[att_index]] = val
 
-print (ref_tab_data)
-
 str_in.close()
+
+
 
